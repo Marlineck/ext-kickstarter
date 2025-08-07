@@ -180,6 +180,17 @@ class TableCommand extends Command
             'input'
         );
 
-        return TableCreatorService::TABLE_COLUMN_TYPES[$tableColumnType] ?? [];
+        $columnConfig = TableCreatorService::TABLE_COLUMN_TYPES[$tableColumnType] ?? [];
+
+        if($tableColumnType === 'text') {
+            $makeTextRte = $io->choice(
+                'Make Textfield RTE?',
+                ['YES', 'NO'], 'NO');
+            if ($makeTextRte === 'YES') {
+                $columnConfig['enableRichtext'] = 'true';
+            }
+        }
+
+        return $columnConfig;
     }
 }
